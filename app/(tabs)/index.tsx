@@ -121,13 +121,22 @@ export default function HomeScreen() {
           delay={450}
         />
         
-        {/* Third friend (newly added) */}
+        {/* Third friend */}
         <Friend 
           name="Michael Chen"
           initial="M"
           status="Busy"
           bio="Photographer, travel enthusiast, and music lover. Always searching for the perfect shot and the next great concert."
           delay={600}
+        />
+        
+        {/* Fourth friend (newly added) */}
+        <Friend 
+          name="Emily Rodriguez"
+          initial="E"
+          status="Online"
+          bio="UX researcher, plant enthusiast, and amateur baker. Passionate about creating user-friendly experiences and growing my urban jungle."
+          delay={750}
         />
       </ScrollView>
     </SafeAreaView>
