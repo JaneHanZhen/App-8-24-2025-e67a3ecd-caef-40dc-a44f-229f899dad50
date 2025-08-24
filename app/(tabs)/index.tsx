@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, SafeAreaView, Animated, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Animated, Image, ScrollView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef } from 'react';
 
-const Friend = () => {
+// Enhanced Friend component with props
+const Friend = ({ name, initial, status, bio, delay = 300 }) => {
   // Animation values for friend card
   const friendFadeAnim = useRef(new Animated.Value(0)).current;
   const friendScaleAnim = useRef(new Animated.Value(0.9)).current;
@@ -13,14 +14,14 @@ const Friend = () => {
       Animated.timing(friendFadeAnim, {
         toValue: 1,
         duration: 1000,
-        delay: 300,
+        delay,
         useNativeDriver: true,
       }),
       Animated.spring(friendScaleAnim, {
         toValue: 1,
         friction: 8,
         tension: 40,
-        delay: 300,
+        delay,
         useNativeDriver: true,
       })
     ]).start();
@@ -40,17 +41,17 @@ const Friend = () => {
         <View style={styles.profileImageContainer}>
           {/* Placeholder for profile image */}
           <View style={styles.profileImage}>
-            <Text style={styles.profileInitial}>A</Text>
+            <Text style={styles.profileInitial}>{initial}</Text>
           </View>
         </View>
         <View style={styles.friendInfo}>
-          <Text style={styles.friendName}>Alex Johnson</Text>
-          <Text style={styles.friendStatus}>Online</Text>
+          <Text style={styles.friendName}>{name}</Text>
+          <Text style={styles.friendStatus}>{status}</Text>
         </View>
       </View>
       <View style={styles.friendDivider} />
       <Text style={styles.friendBio}>
-        Software developer, hiking enthusiast, and coffee lover. Always up for a new adventure!
+        {bio}
       </Text>
     </Animated.View>
   );
@@ -81,7 +82,10 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <View style={styles.contentContainer}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <Animated.View 
           style={[
             styles.card,
@@ -99,9 +103,24 @@ export default function HomeScreen() {
           </Text>
         </Animated.View>
         
-        {/* Friend component */}
-        <Friend />
-      </View>
+        {/* First friend */}
+        <Friend 
+          name="Alex Johnson"
+          initial="A"
+          status="Online"
+          bio="Software developer, hiking enthusiast, and coffee lover. Always up for a new adventure!"
+          delay={300}
+        />
+
+        {/* Second friend (newly added) */}
+        <Friend 
+          name="Sarah Miller"
+          initial="S"
+          status="Away"
+          bio="Graphic designer, bookworm, and aspiring chef. Love exploring new art galleries and trying out new recipes."
+          delay={450}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -110,6 +129,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fa',
+  },
+  scrollContainer: {
+    alignItems: 'center',
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    gap: 24, // Add spacing between cards
   },
   contentContainer: {
     flex: 1,
